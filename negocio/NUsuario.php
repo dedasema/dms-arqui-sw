@@ -33,4 +33,9 @@ class NUsuario
     {
         return $this->dUsuario->obtenerContrasenaActual($id);
     }
+
+    public function obtenerPorCorreo($correo)
+    {
+        return $this->dUsuario->obtenerPorCorreo($correo);
+    }
 }

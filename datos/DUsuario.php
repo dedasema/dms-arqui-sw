@@ -47,4 +47,12 @@ class DUsuario
         $row = $stmt->fetch();
         return $row ? $row['contrasena'] : null;
     }
+
+    public function obtenerPorCorreo($correo)
+    {
+        $sql = "SELECT id, nombre_completo, correo, contrasena, rol FROM usuario WHERE correo = ? AND eliminado = FALSE";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$correo]);
+        return $stmt->fetch();
+    }
 }
