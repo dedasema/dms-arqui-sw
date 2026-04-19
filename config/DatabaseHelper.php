@@ -19,7 +19,8 @@ class DatabaseHelper
         }
 
         // DSN con sslmode=require obligatorio para Railway/Neon
-        $dsn = "pgsql:host={$host};port={$port};dbname={$dbname};sslmode=require";
+        $dsn = "pgsql:host={$host};port={$port};dbname={$dbname}";
+        // $dsn = "pgsql:host={$host};port={$port};dbname={$dbname};sslmode=require";
 
         $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
