@@ -1,4 +1,4 @@
-# Fase 10: Especificación Técnica - CU7 Administrar Comentarios / Revisiones
+# Fase 11: Especificación Técnica - CU7 Administrar Comentarios / Revisiones
 
 ## 1. Capa de Datos (`datos/DComentario.php`)
 Gestiona la persistencia de las observaciones realizadas por los revisores en la tabla `comentario`.

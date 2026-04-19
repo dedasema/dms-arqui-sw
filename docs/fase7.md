@@ -1,4 +1,4 @@
-# Fase 6: Especificación Técnica - CU0 Gestionar Usuarios
+# Fase 7: Especificación Técnica - CU0 Gestionar Usuarios
 
 ## 1. Capa de Datos (`datos/DUsuario.php`)
 Esta clase gestiona la persistencia de los usuarios en PostgreSQL.

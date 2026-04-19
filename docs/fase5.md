@@ -1,4 +1,4 @@
-# Fase 4: Especificación Técnica - CU2 Gestionar Modalidades de Titulación
+# Fase 6: Especificación Técnica - CU2 Gestionar Modalidades de Titulación
 
 ## 1. Capa de Datos (`datos/DModalidad.php`)
 Esta clase gestiona la persistencia en la tabla `modalidad_titulacion` de PostgreSQL.

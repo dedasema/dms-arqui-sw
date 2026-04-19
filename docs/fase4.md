@@ -1,4 +1,4 @@
-# Especificación: Fase 3 - CU1 Gestionar Carreras
+# Especificación: Fase 4 - CU1 Gestionar Carreras
 
 ## Objetivo
 Implementar el CRUD completo de Carreras (Crear, Editar, Eliminar, Listar) siguiendo el diagrama UML y la estructura de carpetas de Railway.

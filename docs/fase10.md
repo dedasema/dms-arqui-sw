@@ -1,4 +1,4 @@
-# Fase 9: Especificación Técnica - CU6 Administrar Versiones Documentales
+# Fase 10: Especificación Técnica - CU6 Administrar Versiones Documentales
 
 ## 1. Capa de Datos (`datos/DVersion.php`)
 Gestiona la persistencia de los archivos y metadatos en la tabla `version_documental`.

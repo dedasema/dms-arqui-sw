@@ -1,4 +1,4 @@
-# Fase 8: Especificación Técnica - CU5 Gestionar Asignaciones
+# Fase 9: Especificación Técnica - CU5 Gestionar Asignaciones
 
 ## 1. Capa de Datos (`datos/DDetalleAsignacion.php`)
 Esta clase gestiona la tabla relacional entre usuarios y proyectos (la asignación de roles).

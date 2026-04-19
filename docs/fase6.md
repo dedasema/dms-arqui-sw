@@ -1,4 +1,4 @@
-# Fase 5: Especificación Técnica - CU3 Gestionar Gestiones Académicas
+# Fase 6: Especificación Técnica - CU3 Gestionar Gestiones Académicas
 
 ## 1. Capa de Datos (`datos/DGestion.php`)
 Esta clase se encarga de la persistencia de los periodos académicos en PostgreSQL.

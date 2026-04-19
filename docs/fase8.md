@@ -1,4 +1,4 @@
-# Fase 7: Especificación Técnica - CU4 Gestionar Proyectos
+# Fase 8: Especificación Técnica - CU4 Gestionar Proyectos
 
 ## 1. Capa de Datos (`datos/DProyecto.php`)
 Esta clase gestiona la persistencia de los proyectos de titulación en PostgreSQL.
