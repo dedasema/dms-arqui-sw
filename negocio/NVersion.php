@@ -20,8 +20,7 @@ class NVersion
             $ruta_archivo, $usuario_id, $estado, $nuevoNumero
         );
 
-        // TODO: procesarNotificaciones (pendiente implementar NNotificacion y tabla notificaciones)
-        // $this->procesarNotificaciones($proyecto_id);
+        $this->procesarNotificaciones($proyecto_id, $nuevoNumero, $usuario_id);
 
         return $result;
     }
@@ -36,10 +35,19 @@ class NVersion
         return $this->dVersion->obtenerPorId($id);
     }
 
-    // Stub — se conectará a NNotificacion cuando esa fase se implemente
-    private function procesarNotificaciones($proyecto_id)
+    private function procesarNotificaciones($proyecto_id, $numero_version, $autor_id)
     {
-        // Instanciar NAsignacion para obtener docentes asignados
-        // Por cada docente, instanciar NNotificacion y crear alerta
+        $nProyecto = new NProyecto();
+        $asignaciones = $nProyecto->obtenerAsignaciones($proyecto_id);
+        
+        $nNotificacion = new NNotificacion();
+        $mensaje = "Se ha subido la Versión $numero_version para el Proyecto #$proyecto_id. Por favor, realiza la revisión.";
+
+        foreach ($asignaciones as $asig) {
+            // Notificamos a roles que no sean Estudiante
+            if ($asig['rol'] !== 'Estudiante' && $asig['usuario_id'] != $autor_id) {
+                $nNotificacion->insertar($asig['usuario_id'], $mensaje);
+            }
+        }
     }
 }

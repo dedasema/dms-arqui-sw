@@ -18,8 +18,7 @@ class NComentario
             $nProyecto->actualizarEstado($proyecto_id, $nuevoEstado);
         }
 
-        // TODO: procesarNotificaciones (pendiente implementar NNotificacion)
-        // $this->procesarNotificaciones($proyecto_id);
+        $this->procesarNotificaciones($proyecto_id, $version_id, $usuario_id);
 
         return $result;
     }
@@ -34,9 +33,19 @@ class NComentario
         return $this->dComentario->obtenerPorId($id);
     }
 
-    private function procesarNotificaciones($proyecto_id)
+    private function procesarNotificaciones($proyecto_id, $version_id, $autor_id)
     {
-        // Instanciar NAsignacion para obtener estudiantes vinculados
-        // Por cada estudiante, instanciar NNotificacion y crear alerta
+        // Notificar a los estudiantes sobre el nuevo comentario/revisión
+        $nProyecto = new NProyecto();
+        $asignaciones = $nProyecto->obtenerAsignaciones($proyecto_id);
+        
+        $nNotificacion = new NNotificacion();
+        $mensaje_texto = "Tienes un nuevo comentario en la Versión $version_id de tu Proyecto #$proyecto_id.";
+
+        foreach ($asignaciones as $asig) {
+            if ($asig['rol'] === 'Estudiante' && $asig['usuario_id'] != $autor_id) {
+                $nNotificacion->insertar($asig['usuario_id'], $mensaje_texto);
+            }
+        }
     }
 }
