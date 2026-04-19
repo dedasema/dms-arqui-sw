@@ -18,6 +18,7 @@ try {
     }
 
     if ($method === 'POST') {
+        checkAccess(['Docente']);
         $version_id   = $_POST['version_id'] ?? 0;
         $proyecto_id  = $_POST['proyecto_id'] ?? 0;
         $mensaje      = trim($_POST['mensaje'] ?? '');

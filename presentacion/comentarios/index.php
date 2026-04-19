@@ -31,6 +31,7 @@ require_once __DIR__ . '/../componentes/layout.php';
         </div>
         
         <!-- Formulario -->
+        <?php if ($_SESSION['rol'] === 'Docente'): ?>
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
             <h4 class="text-sm font-semibold text-gray-700 flex items-center space-x-2 mb-4">
                 <i data-lucide="message-square" class="w-4 h-4 text-blue-500"></i>
@@ -64,6 +65,14 @@ require_once __DIR__ . '/../componentes/layout.php';
                 </button>
             </form>
         </div>
+        <?php else: ?>
+        <div class="bg-gray-50 rounded-xl border border-gray-200 p-5 flex flex-col items-center justify-center text-center min-h-[250px]">
+            <i data-lucide="shield-alert" class="w-8 h-8 text-gray-400 mb-2"></i>
+            <h4 class="text-sm font-semibold text-gray-700">Acción Restringida</h4>
+            <p class="text-xs text-gray-500 mt-1">Sólo los docentes pueden registrar comentarios y decisiones.</p>
+            <p class="text-xs text-gray-400 mt-1">Puedes visualizar la línea de vida y las revisiones a la derecha.</p>
+        </div>
+        <?php endif; ?>
     </div>
 
     <!-- Panel derecho: Historial de Comentarios -->

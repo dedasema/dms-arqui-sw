@@ -12,6 +12,7 @@ require_once __DIR__ . '/../componentes/layout.php';
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
     <!-- Panel izquierdo: Subida de archivo -->
+    <?php if ($_SESSION['rol'] === 'Estudiante'): ?>
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex flex-col space-y-4 lg:col-span-1">
         <h4 class="text-sm font-semibold text-gray-700 flex items-center space-x-2">
             <i data-lucide="upload" class="w-4 h-4 text-blue-500"></i>
@@ -41,6 +42,14 @@ require_once __DIR__ . '/../componentes/layout.php';
             </button>
         </form>
     </div>
+    <?php else: ?>
+    <div class="bg-gray-50 rounded-xl border border-gray-200 p-5 flex flex-col items-center justify-center text-center lg:col-span-1 min-h-[250px]">
+        <i data-lucide="shield-alert" class="w-8 h-8 text-gray-400 mb-2"></i>
+        <h4 class="text-sm font-semibold text-gray-700">Acción Restringida</h4>
+        <p class="text-xs text-gray-500 mt-1">Sólo los estudiantes pueden subir versiones documentales.</p>
+        <p class="text-xs text-gray-400 mt-1">Puedes visualizar el historial a la derecha.</p>
+    </div>
+    <?php endif; ?>
 
     <!-- Panel derecho: Historial de versiones -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden lg:col-span-2">
