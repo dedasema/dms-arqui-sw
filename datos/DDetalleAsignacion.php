@@ -11,10 +11,8 @@ class DDetalleAsignacion
 
     public function crearAsignacion($usuario_id, $rol, $proyecto_id)
     {
-        // ON CONFLICT DO NOTHING previene duplicados del par (proyecto_id, usuario_id)
         $sql = "INSERT INTO asignacion_proyecto (usuario_id, rol, proyecto_id) 
-                VALUES (?, ?, ?) 
-                ON CONFLICT (proyecto_id, usuario_id) DO NOTHING";
+                VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$usuario_id, $rol, $proyecto_id]);
     }
