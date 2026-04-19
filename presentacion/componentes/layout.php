@@ -9,7 +9,7 @@ $rol = $_SESSION['rol'] ?? null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TesisFlow - Sistema de Titulación</title>
+    <title>DMS - FICCT</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -17,8 +17,8 @@ $rol = $_SESSION['rol'] ?? null;
     
     <aside class="w-64 bg-gray-900 text-white min-h-screen p-4 flex flex-col">
         <div class="mb-8 pl-2">
-            <h1 class="text-2xl font-bold text-blue-400">TesisFlow</h1>
-            <p class="text-gray-400 text-sm mt-1">Gestión de Titulación</p>
+            <h1 class="text-2xl font-bold text-blue-400">DMS - FICCT</h1>
+            <p class="text-gray-400 text-sm mt-1">Sistema de Gestión Documental</p>
             <p class="text-gray-500 text-xs mt-2 uppercase"><?php echo htmlspecialchars($rol ?? 'INVITADO'); ?></p>
         </div>
 

@@ -55,8 +55,8 @@
             <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl shadow-lg shadow-blue-600/30 mb-4">
                 <i data-lucide="graduation-cap" class="w-8 h-8 text-white"></i>
             </div>
-            <h1 class="text-3xl font-bold text-white tracking-tight">TesisFlow</h1>
-            <p class="text-blue-300 text-sm mt-1">Sistema de Titulación Académica</p>
+            <h1 class="text-3xl font-bold text-white tracking-tight">DMS-FICCT</h1>
+            <p class="text-blue-300 text-sm mt-1">Sistema de Gestión Documental</p>
         </div>
 
         <!-- Tarjeta del formulario -->

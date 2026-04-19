@@ -3,6 +3,7 @@ require_once __DIR__ . '/../../config/env_loader.php';
 require_once __DIR__ . '/../../config/autoload.php';
 require_once __DIR__ . '/../../config/session.php';
 checkAccess(['Administrador', 'Docente', 'Estudiante']);
+require_once __DIR__ . '/../componentes/layout.php';
 ?>
 
 <script>document.getElementById('page-title').textContent = 'Dashboard';</script>
