@@ -1,0 +1,1 @@
+Revisa el archivo *AGENTS.md* en este mismo directorio
