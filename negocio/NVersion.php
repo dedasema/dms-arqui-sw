@@ -20,7 +20,7 @@ class NVersion
             $ruta_archivo, $usuario_id, $estado, $nuevoNumero
         );
 
-        $this->procesarNotificaciones($proyecto_id, $nuevoNumero, $usuario_id);
+        // $this->procesarNotificaciones($proyecto_id, $nuevoNumero, $usuario_id);
 
         return $result;
     }
@@ -35,19 +35,19 @@ class NVersion
         return $this->dVersion->obtenerPorId($id);
     }
 
-    private function procesarNotificaciones($proyecto_id, $numero_version, $autor_id)
-    {
-        $nProyecto = new NProyecto();
-        $asignaciones = $nProyecto->obtenerAsignaciones($proyecto_id);
-        
-        $nNotificacion = new NNotificacion();
-        $mensaje = "Se ha subido la Versión $numero_version para el Proyecto #$proyecto_id. Por favor, realiza la revisión.";
-
-        foreach ($asignaciones as $asig) {
-            // Notificamos a roles que no sean Estudiante
-            if ($asig['rol'] !== 'Estudiante' && $asig['usuario_id'] != $autor_id) {
-                $nNotificacion->insertar($asig['usuario_id'], $mensaje);
-            }
-        }
-    }
+    // private function procesarNotificaciones($proyecto_id, $numero_version, $autor_id)
+    // {
+    //     $nProyecto = new NProyecto();
+    //     $asignaciones = $nProyecto->obtenerAsignaciones($proyecto_id);
+    //     
+    //     $nNotificacion = new NNotificacion();
+    //     $mensaje = "Se ha subido la Versión $numero_version para el Proyecto #$proyecto_id. Por favor, realiza la revisión.";
+    // 
+    //     foreach ($asignaciones as $asig) {
+    //         // Notificamos a roles que no sean Estudiante
+    //         if ($asig['rol'] !== 'Estudiante' && $asig['usuario_id'] != $autor_id) {
+    //             $nNotificacion->insertar($asig['usuario_id'], $mensaje);
+    //         }
+    //     }
+    // }
 }
