@@ -5,11 +5,39 @@ let proyectoSeleccionadoId = 0;
 let versionSeleccionadaId = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
-    cargarProyectos();
+    cargarProyectos().then(async () => {
+        const params = new URLSearchParams(window.location.search);
+        const pid = params.get('proyecto_id');
+        const vid = params.get('version_id');
+
+        if (pid) {
+            const selectP = document.getElementById('select-proyecto');
+            if (selectP) {
+                selectP.value = pid;
+                selectP.disabled = true;
+            }
+            proyectoSeleccionadoId = parseInt(pid);
+            
+            // Cargar versiones para este proyecto
+            await cargarVersiones(proyectoSeleccionadoId);
+            
+            if (vid) {
+                const selectV = document.getElementById('select-version');
+                if (selectV) {
+                    selectV.value = vid;
+                    selectV.disabled = true;
+                }
+                versionSeleccionadaId = parseInt(vid);
+                listarComentarios();
+            }
+        }
+    });
     
     document.getElementById('select-proyecto').addEventListener('change', onProyectoCambiado);
     document.getElementById('select-version').addEventListener('change', onVersionCambiada);
-    document.getElementById('form-comentario').addEventListener('submit', enviarComentario);
+    
+    const formEl = document.getElementById('form-comentario');
+    if (formEl) formEl.addEventListener('submit', enviarComentario);
 });
 
 async function cargarProyectos() {
@@ -27,15 +55,24 @@ async function cargarProyectos() {
 
 async function onProyectoCambiado() {
     proyectoSeleccionadoId = parseInt(this.value) || 0;
-    const selectVer = document.getElementById('select-version');
-    selectVer.innerHTML = '<option value="">-- Seleccionar versión --</option>';
     document.getElementById('lista-comentarios').innerHTML = '<p class="text-gray-400 text-sm py-4 text-center">Selecciona un proyecto y versión.</p>';
     versionSeleccionadaId = 0;
 
-    if (!proyectoSeleccionadoId) return;
+    if (!proyectoSeleccionadoId) {
+        document.getElementById('select-version').innerHTML = '<option value="">-- Seleccionar versión --</option>';
+        return;
+    }
+    
+    await cargarVersiones(proyectoSeleccionadoId);
+}
 
+async function cargarVersiones(idProyecto) {
+    const selectVer = document.getElementById('select-version');
+    if (!selectVer) return;
+    
+    selectVer.innerHTML = '<option value="">-- Seleccionar versión --</option>';
     try {
-        const res = await api.get(`/api/versiones/?proyecto_id=${proyectoSeleccionadoId}`);
+        const res = await api.get(`/api/versiones/?proyecto_id=${idProyecto}`);
         res.data.forEach(v => {
             selectVer.innerHTML += `<option value="${v.id}">v${v.numero} - ${v.nombre}</option>`;
         });

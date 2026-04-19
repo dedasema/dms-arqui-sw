@@ -13,11 +13,13 @@ require_once __DIR__ . '/../componentes/layout.php';
         <h3 class="text-lg font-semibold text-gray-700">Listado de Proyectos de Titulación</h3>
         <p class="text-sm text-gray-400 mt-0.5">Gestiona los proyectos de grado registrados en el sistema.</p>
     </div>
+    <?php if ($_SESSION['rol'] === 'Administrador'): ?>
     <button id="btn-nuevo-proyecto"
             class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg shadow-sm transition flex items-center space-x-2">
         <i data-lucide="plus" class="w-4 h-4"></i>
         <span>Nuevo Proyecto</span>
     </button>
+    <?php endif; ?>
 </div>
 
 <!-- Tabla -->

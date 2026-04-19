@@ -5,16 +5,34 @@ const API_DESCARGAR_URL = '/api/versiones/descargar.php';
 let proyectoSeleccionadoId = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
-    cargarProyectos();
+    cargarProyectos().then(() => {
+        const params = new URLSearchParams(window.location.search);
+        const pid = params.get('proyecto_id');
+        if (pid) {
+            const select = document.getElementById('select-proyecto');
+            if (select) {
+                select.value = pid;
+                select.disabled = true; // Bloqueado por pre-selección
+            }
+            proyectoSeleccionadoId = parseInt(pid);
+            listarHistorial(proyectoSeleccionadoId);
+        }
+    });
 
-    document.getElementById('select-proyecto').addEventListener('change', onProyectoCambiado);
-    document.getElementById('form-subir').addEventListener('submit', subirArchivo);
+    const selectEl = document.getElementById('select-proyecto');
+    if (selectEl) selectEl.addEventListener('change', onProyectoCambiado);
+    
+    const formEl = document.getElementById('form-subir');
+    if (formEl) formEl.addEventListener('submit', subirArchivo);
 });
 
 async function cargarProyectos() {
+    // Si no somos el rol estudiante (ej. Docente), no hay select-proyecto en pantalla
+    const select = document.getElementById('select-proyecto');
+    if (!select) return;
+
     try {
         const res = await api.get('/api/proyectos/');
-        const select = document.getElementById('select-proyecto');
         select.innerHTML = '<option value="">-- Seleccionar proyecto --</option>';
         res.data.forEach(p => {
             select.innerHTML += `<option value="${p.id}">[${p.estado}] ${p.titulo}</option>`;
@@ -56,9 +74,15 @@ async function listarHistorial(proyecto_id) {
                     <td class="px-4 py-2.5 text-sm">
                         <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600">${v.estado}</span>
                     </td>
-                    <td class="px-4 py-2.5 text-sm text-right">
+                    <td class="px-4 py-2.5 text-sm text-right flex justify-end space-x-3">
+                        <a href="/presentacion/comentarios/?proyecto_id=${proyecto_id}&version_id=${v.id}" 
+                           class="text-teal-600 hover:text-teal-800 font-medium transition flex items-center space-x-1" 
+                           title="Comentarios">
+                            <i data-lucide="message-square" class="w-4 h-4 inline"></i>
+                            <span>Comentarios</span>
+                        </a>
                         <a href="${API_DESCARGAR_URL}?id=${v.id}" 
-                           class="text-blue-600 hover:text-blue-800 font-medium transition flex items-center justify-end space-x-1" 
+                           class="text-blue-600 hover:text-blue-800 font-medium transition flex items-center space-x-1" 
                            title="Descargar">
                             <i data-lucide="download" class="w-4 h-4 inline"></i>
                             <span>Descargar</span>

@@ -27,29 +27,7 @@ require_once __DIR__ . '/../componentes/layout.php';
         </div>
         <div>
             <p class="font-semibold text-gray-800 text-sm">Proyectos</p>
-            <p class="text-xs text-gray-400 mt-0.5">Gestiona tus proyectos de titulación.</p>
-        </div>
-    </a>
-
-    <!-- Versiones -->
-    <a href="/presentacion/versiones/" class="group bg-white rounded-xl border border-gray-200 shadow-sm p-5 flex items-center space-x-4 hover:shadow-md hover:border-indigo-200 transition">
-        <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-indigo-100 transition">
-            <i data-lucide="file-up" class="w-6 h-6 text-indigo-600"></i>
-        </div>
-        <div>
-            <p class="font-semibold text-gray-800 text-sm">Versiones Documentales</p>
-            <p class="text-xs text-gray-400 mt-0.5">Sube y revisa documentos.</p>
-        </div>
-    </a>
-
-    <!-- Comentarios -->
-    <a href="/presentacion/comentarios/" class="group bg-white rounded-xl border border-gray-200 shadow-sm p-5 flex items-center space-x-4 hover:shadow-md hover:border-purple-200 transition">
-        <div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-purple-100 transition">
-            <i data-lucide="message-square" class="w-6 h-6 text-purple-600"></i>
-        </div>
-        <div>
-            <p class="font-semibold text-gray-800 text-sm">Revisiones</p>
-            <p class="text-xs text-gray-400 mt-0.5">Revisa y anota observaciones.</p>
+            <p class="text-xs text-gray-400 mt-0.5">Gestiona tus proyectos de titulación y sus avances.</p>
         </div>
     </a>
 
@@ -73,17 +51,6 @@ require_once __DIR__ . '/../componentes/layout.php';
         <div>
             <p class="font-semibold text-gray-800 text-sm">Asignaciones</p>
             <p class="text-xs text-gray-400 mt-0.5">Asigna tutores y tribunales.</p>
-        </div>
-    </a>
-
-    <!-- Configuración -->
-    <a href="/presentacion/carreras/" class="group bg-white rounded-xl border border-gray-200 shadow-sm p-5 flex items-center space-x-4 hover:shadow-md hover:border-gray-300 transition">
-        <div class="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-gray-200 transition">
-            <i data-lucide="settings" class="w-6 h-6 text-gray-500"></i>
-        </div>
-        <div>
-            <p class="font-semibold text-gray-800 text-sm">Configuración</p>
-            <p class="text-xs text-gray-400 mt-0.5">Carreras, Modalidades y Gestiones.</p>
         </div>
     </a>
     <?php endif; ?>

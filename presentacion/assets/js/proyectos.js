@@ -54,7 +54,17 @@ async function listar() {
                                 class="text-red-500 hover:text-red-700 transition" title="Eliminar">
                             <i data-lucide="trash-2" class="w-4 h-4 inline"></i>
                         </button>
-                        ` : '<span class="text-xs text-gray-400 italic">Sin permisos</span>'}
+                        ` : window.USER_ROLE === 'Estudiante' ? `
+                        <a href="/presentacion/versiones/?proyecto_id=${p.id}" 
+                           class="text-indigo-600 hover:text-indigo-800 transition font-semibold" title="Versiones Documentales">
+                            <i data-lucide="upload-cloud" class="w-4 h-4 inline mr-1"></i> Subir / Ver Avances
+                        </a>
+                        ` : window.USER_ROLE === 'Docente' ? `
+                        <a href="/presentacion/versiones/?proyecto_id=${p.id}" 
+                           class="text-blue-600 hover:text-blue-800 transition font-semibold" title="Revisar Avances">
+                            <i data-lucide="eye" class="w-4 h-4 inline mr-1"></i> Ver Avances
+                        </a>
+                        ` : ''}
                     </td>
                 </tr>`;
         });
