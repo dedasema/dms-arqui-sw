@@ -22,7 +22,7 @@ try {
         $version_id   = $_POST['version_id'] ?? 0;
         $proyecto_id  = $_POST['proyecto_id'] ?? 0;
         $mensaje      = trim($_POST['mensaje'] ?? '');
-        $nuevo_estado = $_POST['nuevo_estado'] ?? null;
+        $estado = $_POST['estado'] ?? null;
         $usuario_id   = $_SESSION['usuario_id'];
 
         if (!$mensaje) {
@@ -53,7 +53,7 @@ try {
         }
 
         $nComentario = new NComentario();
-        $result = $nComentario->insertar($mensaje, $rutaRelativa, $version_id, $usuario_id, $proyecto_id, $nuevo_estado);
+        $result = $nComentario->insertar($mensaje, $rutaRelativa, $version_id, $usuario_id, $proyecto_id, $estado);
 
         echo json_encode(['status' => true, 'message' => 'Comentario registrado correctamente.', 'id' => $result['id']]);
         exit;

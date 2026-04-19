@@ -9,13 +9,13 @@ class NComentario
         $this->dComentario = new DComentario();
     }
 
-    public function insertar($mensaje, $ruta_archivo, $version_id, $usuario_id, $proyecto_id, $nuevoEstado = null)
+    public function insertar($mensaje, $ruta_archivo, $version_id, $usuario_id, $proyecto_id, $estado = null)
     {
         $result = $this->dComentario->insertar($mensaje, $ruta_archivo, $version_id, $usuario_id, $proyecto_id);
 
-        if ($nuevoEstado) {
+        if ($estado) {
             $nProyecto = new NProyecto();
-            $nProyecto->actualizarEstado($proyecto_id, $nuevoEstado);
+            $nProyecto->actualizarEstado($proyecto_id, $estado);
         }
 
         // $this->procesarNotificaciones($proyecto_id, $version_id, $usuario_id);
