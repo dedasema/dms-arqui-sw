@@ -52,7 +52,7 @@ CREATE TABLE usuario (
     rol             VARCHAR(50)  NOT NULL,
     codigo          VARCHAR(50),
     eliminado       BOOLEAN      NOT NULL DEFAULT FALSE,
-    carrera_id      INTEGER      NOT NULL
+    carrera_id      INTEGER      NULL
         REFERENCES carrera(id) ON DELETE RESTRICT
 );
 
