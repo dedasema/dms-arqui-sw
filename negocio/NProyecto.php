@@ -33,4 +33,28 @@ class NProyecto
     {
         return $this->dProyecto->actualizarEstado($id, $estado);
     }
+
+    // --- Métodos de Asignaciones (Fase 9 / CU5) ---
+
+    public function crearAsignacion($proyecto_id, $usuarios)
+    {
+        $dAsignacion = new DDetalleAsignacion();
+        foreach ($usuarios as $u) {
+            $dAsignacion->crearAsignacion($u['usuario_id'], $u['rol'], $proyecto_id);
+        }
+        // Cambiar estado del proyecto a "Asignado"
+        $this->actualizarEstado($proyecto_id, 'Asignado');
+    }
+
+    public function eliminarAsignacion($proyecto_id)
+    {
+        $dAsignacion = new DDetalleAsignacion();
+        return $dAsignacion->eliminarAsignacion($proyecto_id);
+    }
+
+    public function obtenerAsignaciones($proyecto_id)
+    {
+        $dAsignacion = new DDetalleAsignacion();
+        return $dAsignacion->obtenerAsignaciones($proyecto_id);
+    }
 }
