@@ -2,7 +2,10 @@
 require_once __DIR__ . '/../componentes/layout.php';
 ?>
 
-<script>document.getElementById('page-title').textContent = 'Gestionar Proyectos';</script>
+<script>
+    window.USER_ROLE = "<?php echo $_SESSION['rol'] ?? ''; ?>";
+    document.getElementById('page-title').textContent = 'Gestionar Proyectos';
+</script>
 
 <!-- Header de sección -->
 <div class="flex justify-between items-center mb-6">

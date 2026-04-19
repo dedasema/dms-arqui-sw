@@ -45,6 +45,7 @@ async function listar() {
                     <td class="px-6 py-3 text-sm text-gray-500">${p.nombre_modalidad}</td>
                     <td class="px-6 py-3 text-sm text-gray-500">${p.codigo_gestion}</td>
                     <td class="px-6 py-3 text-sm text-right space-x-2">
+                        ${window.USER_ROLE === 'Administrador' ? `
                         <button onclick="editar(${p.id}, '${p.titulo.replace(/'/g, "\\'")}', '${p.estado}', ${p.carrera_id === null ? "''" : p.carrera_id}, ${p.modalidad_id}, ${p.gestion_id})" 
                                 class="text-blue-600 hover:text-blue-800 transition" title="Editar">
                             <i data-lucide="pencil" class="w-4 h-4 inline"></i>
@@ -53,6 +54,7 @@ async function listar() {
                                 class="text-red-500 hover:text-red-700 transition" title="Eliminar">
                             <i data-lucide="trash-2" class="w-4 h-4 inline"></i>
                         </button>
+                        ` : '<span class="text-xs text-gray-400 italic">Sin permisos</span>'}
                     </td>
                 </tr>`;
         });
