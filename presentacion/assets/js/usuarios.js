@@ -10,7 +10,22 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-nuevo-usuario').addEventListener('click', abrirModalNuevo);
     document.getElementById('form-usuario').addEventListener('submit', guardar);
     document.getElementById('btn-cancelar').addEventListener('click', cerrarModal);
+
+    // Lógica para toggle de carrera según rol
+    document.getElementById('select-rol').addEventListener('change', (e) => {
+        toggleCarrera(e.target.value);
+    });
 });
+
+function toggleCarrera(rol) {
+    const container = document.getElementById('container-carrera');
+    if (rol === 'Estudiante') {
+        container.classList.remove('hidden');
+    } else {
+        container.classList.add('hidden');
+        document.getElementById('select-carrera').value = '';
+    }
+}
 
 async function listar() {
     try {
@@ -81,7 +96,12 @@ async function guardar(e) {
     const codigo          = document.getElementById('input-codigo').value.trim();
     const carrera_id      = document.getElementById('select-carrera').value;
 
-    if (!nombre_completo || !correo || !rol || !carrera_id) return;
+    // Validación según rol
+    if (!nombre_completo || !correo || !rol) return;
+    if (rol === 'Estudiante' && !carrera_id) {
+        alert('Debes seleccionar una carrera para el estudiante.');
+        return;
+    }
 
     try {
         await api.post(API_URL, { id: editandoId, nombre_completo, correo, contrasena, rol, codigo, carrera_id });
@@ -99,7 +119,10 @@ function editar(id, nombre_completo, correo, rol, codigo, carrera_id) {
     document.getElementById('input-contrasena').value = ''; // No revelar hash
     document.getElementById('select-rol').value      = rol;
     document.getElementById('input-codigo').value    = codigo;
-    document.getElementById('select-carrera').value  = carrera_id;
+    document.getElementById('select-carrera').value  = carrera_id || '';
+    
+    toggleCarrera(rol);
+
     document.getElementById('label-contrasena').textContent = 'Nueva Contraseña (dejar vacío para no cambiar)';
     document.getElementById('modal-titulo').textContent = 'Editar Usuario';
     document.getElementById('modal-usuario').classList.remove('hidden');
@@ -118,6 +141,7 @@ async function eliminar(id) {
 function abrirModalNuevo() {
     editandoId = 0;
     document.getElementById('form-usuario').reset();
+    toggleCarrera('');
     document.getElementById('label-contrasena').textContent = 'Contraseña';
     document.getElementById('modal-titulo').textContent = 'Nuevo Usuario';
     document.getElementById('modal-usuario').classList.remove('hidden');

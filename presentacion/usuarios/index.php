@@ -79,9 +79,9 @@ require_once __DIR__ . '/../componentes/layout.php';
                         <option value="Administrador">Administrador</option>
                     </select>
                 </div>
-                <div class="col-span-2">
+                <div id="container-carrera" class="col-span-2">
                     <label for="select-carrera" class="block text-sm font-medium text-gray-700 mb-1">Carrera</label>
-                    <select id="select-carrera" required
+                    <select id="select-carrera"
                             class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white">
                         <option value="">Cargando carreras...</option>
                     </select>
