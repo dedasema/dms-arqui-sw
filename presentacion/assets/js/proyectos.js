@@ -41,11 +41,11 @@ async function listar() {
                     <td class="px-6 py-3 text-sm">
                         <span class="px-2 py-0.5 rounded-full text-xs font-semibold ${estadoBadge}">${p.estado}</span>
                     </td>
-                    <td class="px-6 py-3 text-sm text-gray-500">${p.nombre_carrera}</td>
+                    <td class="px-6 py-3 text-sm text-gray-500">${p.nombre_carrera ?? '—'}</td>
                     <td class="px-6 py-3 text-sm text-gray-500">${p.nombre_modalidad}</td>
                     <td class="px-6 py-3 text-sm text-gray-500">${p.codigo_gestion}</td>
                     <td class="px-6 py-3 text-sm text-right space-x-2">
-                        <button onclick="editar(${p.id}, '${p.titulo.replace(/'/g, "\\'")}', '${p.estado}', ${p.carrera_id}, ${p.modalidad_id}, ${p.gestion_id})" 
+                        <button onclick="editar(${p.id}, '${p.titulo.replace(/'/g, "\\'")}', '${p.estado}', ${p.carrera_id === null ? "''" : p.carrera_id}, ${p.modalidad_id}, ${p.gestion_id})" 
                                 class="text-blue-600 hover:text-blue-800 transition" title="Editar">
                             <i data-lucide="pencil" class="w-4 h-4 inline"></i>
                         </button>
@@ -72,7 +72,7 @@ async function cargarSelects() {
         ]);
 
         const selectCarrera = document.getElementById('select-carrera');
-        selectCarrera.innerHTML = '<option value="">Seleccionar carrera...</option>';
+        selectCarrera.innerHTML = '<option value="">Opcional / Ninguna...</option>';
         carreras.data.forEach(c => {
             selectCarrera.innerHTML += `<option value="${c.id}">${c.nombre} (${c.sigla})</option>`;
         });
@@ -101,7 +101,7 @@ async function guardar(e) {
     const modalidad_id = document.getElementById('select-modalidad').value;
     const gestion_id   = document.getElementById('select-gestion').value;
 
-    if (!titulo || !estado || !carrera_id || !modalidad_id || !gestion_id) return;
+    if (!titulo || !estado || !modalidad_id || !gestion_id) return;
 
     try {
         await api.post(API_URL, { id: editandoId, titulo, estado, carrera_id, modalidad_id, gestion_id });
