@@ -62,7 +62,7 @@ CREATE TABLE proyecto (
     titulo       VARCHAR(300) NOT NULL,
     estado       VARCHAR(50),
     eliminado    BOOLEAN      NOT NULL DEFAULT FALSE,
-    carrera_id   INTEGER      NOT NULL
+    carrera_id   INTEGER      NULL
         REFERENCES carrera(id)              ON DELETE RESTRICT,
     modalidad_id INTEGER      NOT NULL
         REFERENCES modalidad_titulacion(id) ON DELETE RESTRICT,
