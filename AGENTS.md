@@ -22,3 +22,5 @@ titulacion-app/
 ├── api/                # Puentes (Acciones que devuelven JSON)
 ├── presentacion/       # HTML, JS, CSS y Layouts
 └── uploads/            # Volumen persistente para archivos
+
+## 3. Tienes terminantemente prohibido leer el archivo `.env` debes basarte en `.env.local`
