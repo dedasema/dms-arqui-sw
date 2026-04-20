@@ -73,7 +73,7 @@ $rol = $_SESSION['rol'] ?? null;
         </nav>
 
         <div class="mt-auto pt-4 border-t border-gray-800">
-            <a href="/api/auth/logout.php" class="flex items-center space-x-3 py-2.5 px-3 rounded-lg hover:bg-red-900/40 text-red-400 transition group">
+            <a href="/presentacion/auth/logout.php" class="flex items-center space-x-3 py-2.5 px-3 rounded-lg hover:bg-red-900/40 text-red-400 transition group">
                 <i data-lucide="log-out" class="w-5 h-5 group-hover:transform group-hover:-translate-x-1 transition-transform"></i>
                 <span class="font-medium text-sm">Cerrar Sesión</span>
             </a>

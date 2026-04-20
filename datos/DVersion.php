@@ -41,7 +41,10 @@ class DVersion
 
     public function obtenerPorId($id)
     {
-        $sql = "SELECT * FROM version_documental WHERE id = ?";
+        $sql = "SELECT v.*, p.titulo as nombre_proyecto 
+                FROM version_documental v
+                JOIN proyecto p ON v.proyecto_id = p.id
+                WHERE v.id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$id]);
         return $stmt->fetch();

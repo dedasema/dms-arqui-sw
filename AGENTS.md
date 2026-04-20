@@ -7,7 +7,7 @@ Este documento define las reglas inquebrantables de arquitectura, seguridad y de
 ## 1. Misión Arquitectónica (3 Capas Estrictas)
 El sistema se rige por una arquitectura de **3 Capas Ortodoxas**. Está prohibido el uso de frameworks complejos o patrones MVC tradicionales.
 
-* **Capa P (Presentación):** Vistas HTML/JS y archivos receptores en `/api/`. Su única función es capturar datos, invocar a la Capa N y devolver JSON.
+* **Capa P (Presentación):** Clases Boundary `P[Entidad].php` y vistas PHP. Capturan la entrada del usuario (POST/GET), orquestan la llamada a la Capa N y renderizan la respuesta. No hay intermediarios REST ni AJAX.
 * **Capa N (Negocio):** Clases `N[Entidad].php`. Contienen la lógica, orquestación y cambios de estado. No conocen la base de datos.
 * **Capa D (Datos):** Clases `D[Entidad].php`. Única capa con permiso para ejecutar SQL mediante `DatabaseHelper`.
 
@@ -19,8 +19,7 @@ titulacion-app/
 ├── config/             # DatabaseHelper, session, autoload, env_loader
 ├── datos/              # Clases D (Persistencia)
 ├── negocio/            # Clases N (Lógica)
-├── api/                # Puentes (Acciones que devuelven JSON)
-├── presentacion/       # HTML, JS, CSS y Layouts
+├── presentacion/       # Clases P (Boundaries) y Vistas PHP nativas
 └── uploads/            # Volumen persistente para archivos
 
 ## 3. Tienes terminantemente prohibido leer el archivo `.env` debes basarte en `.env.local`
