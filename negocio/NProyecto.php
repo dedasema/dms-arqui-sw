@@ -42,6 +42,9 @@ class NProyecto
 
     public function crearAsignacion($proyecto_id, $usuarios)
     {
+        //Eliminar si hubiera alguna asignación anterior
+        $this->eliminarAsignacion($proyecto_id);
+
         $dAsignacion = new DDetalleAsignacion();
         foreach ($usuarios as $u) {
             $dAsignacion->crearAsignacion($u['usuario_id'], $u['rol'], $proyecto_id);
