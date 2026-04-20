@@ -27,8 +27,20 @@ $rol = $_SESSION['rol'] ?? null;
                 <i data-lucide="home" class="w-5 h-5 text-gray-400"></i>
                 <span class="font-medium text-sm">Dashboard</span>
             </a>
-            
-            <?php if (in_array($rol, ['Administrador', 'Estudiante', 'Docente'])): ?>
+
+            <?php if (in_array($rol, ['Estudiante', 'Docente'])): ?>
+            <div class="pt-6 pb-2 px-3">
+                <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Gestión Documental</p>
+            </div>
+            <a href="/presentacion/proyectos/" class="flex items-center space-x-3 py-2.5 px-3 rounded-lg hover:bg-gray-800 transition">
+                <i data-lucide="folder" class="w-5 h-5 text-gray-400"></i>
+                <span class="font-medium text-sm">Proyectos</span>
+            </a>
+            <?php endif; ?>
+            <?php if (in_array($rol, ['Administrador'])): ?>
+            <div class="pt-6 pb-2 px-3">
+                <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Administración</p>
+            </div>
             <a href="/presentacion/proyectos/" class="flex items-center space-x-3 py-2.5 px-3 rounded-lg hover:bg-gray-800 transition">
                 <i data-lucide="folder" class="w-5 h-5 text-gray-400"></i>
                 <span class="font-medium text-sm">Proyectos</span>
@@ -44,10 +56,7 @@ $rol = $_SESSION['rol'] ?? null;
                 <i data-lucide="user-check" class="w-5 h-5 text-gray-400"></i>
                 <span class="font-medium text-sm">Asignaciones</span>
             </a>
-            
-            <div class="pt-6 pb-2 px-3">
-                <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Configuración</p>
-            </div>
+ 
             <a href="/presentacion/carreras/" class="flex items-center space-x-3 py-2 px-3 rounded-lg hover:bg-gray-800 transition">
                 <i data-lucide="book-open" class="w-5 h-5 text-gray-400"></i>
                 <span class="font-medium text-sm">Carreras</span>
