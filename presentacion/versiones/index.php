@@ -27,19 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 // Procesar Descarga
 if (isset($_GET['action']) && $_GET['action'] === 'descargar') {
     $id = $_GET['id'] ?? 0;
-    $v = $pVersion->obtenerVersionPorId($id);
-    if ($v) {
-        $rutaAbsoluta = __DIR__ . '/../../' . $v['ruta_archivo'];
-        if (file_exists($rutaAbsoluta)) {
-            $ext = strtolower(pathinfo($v['nombre'], PATHINFO_EXTENSION));
-            $mimeMap = ['pdf' => 'application/pdf', 'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'doc' => 'application/msword', 'txt' => 'text/plain'];
-            $mimeType = $mimeMap[$ext] ?? 'application/octet-stream';
-            header('Content-Type: ' . $mimeType);
-            header('Content-Disposition: attachment; filename="' . basename($v['nombre']) . '"');
-            header('Content-Length: ' . filesize($rutaAbsoluta));
-            readfile($rutaAbsoluta);
-            exit;
-        }
+    try {
+        $pVersion->descargar($id);
+    } catch (Exception $e) {
+        $error = $e->getMessage();
     }
 }
 

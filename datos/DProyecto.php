@@ -60,4 +60,12 @@ class DProyecto
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$estado, $id]);
     }
+
+    public function obtenerPorId($id)
+    {
+        $sql = "SELECT * FROM proyecto WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$id]);
+        return $stmt->fetch();
+    }
 }

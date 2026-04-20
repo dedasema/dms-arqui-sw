@@ -64,4 +64,9 @@ class NProyecto
         $dAsignacion = new DDetalleAsignacion();
         return $dAsignacion->obtenerAsignaciones($proyecto_id);
     }
+
+    public function obtenerPorId($id)
+    {
+        return $this->dProyecto->obtenerPorId($id);
+    }
 }

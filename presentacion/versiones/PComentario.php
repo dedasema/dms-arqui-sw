@@ -51,4 +51,27 @@ class PComentario {
 
         return $this->nComentario->insertar($mensaje, $rutaRelativa, $version_id, $usuario_id, $proyecto_id, $estado);
     }
+
+    public function descargar($id) {
+        $c = $this->obtenerComentarioPorId($id);
+        if ($c && $c['ruta_archivo']) {
+            $rutaAbsoluta = __DIR__ . '/../../' . $c['ruta_archivo'];
+            if (file_exists($rutaAbsoluta)) {
+                $ext = strtolower(pathinfo($c['ruta_archivo'], PATHINFO_EXTENSION));
+                $mimeMap = [
+                    'pdf' => 'application/pdf', 
+                    'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
+                    'doc' => 'application/msword', 
+                    'txt' => 'text/plain'
+                ];
+                $mimeType = $mimeMap[$ext] ?? 'application/octet-stream';
+                header('Content-Type: ' . $mimeType);
+                header('Content-Disposition: attachment; filename="Adjunto_Revision_' . $id . '.' . $ext . '"');
+                header('Content-Length: ' . filesize($rutaAbsoluta));
+                readfile($rutaAbsoluta);
+                exit;
+            }
+        }
+        throw new Exception("Adjunto no encontrado.");
+    }
 }
