@@ -12,7 +12,8 @@ class NVersion
     public function subir($nombre, $peso_bytes, $proyecto_id, $ruta_archivo, $usuario_id)
     {
         $nProyecto = new NProyecto();
-        $estado = $nProyecto->obtenerEstado($proyecto_id);
+        $estadoRow = $nProyecto->obtenerEstado($proyecto_id);
+        $estado = $estadoRow ? $estadoRow['estado'] : 'Registrado';
 
         // Auto-incrementar el número de versión
         $ultimoNumero = $this->dVersion->obtenerUltimoNumero($proyecto_id);
