@@ -29,6 +29,10 @@ class NProyecto
         return $this->dProyecto->obtenerProyectos();
     }
 
+    public function obtenerEstado($id)
+    {
+        return $this->dProyecto->obtenerEstado($id);
+    }
     public function actualizarEstado($id, $estado)
     {
         return $this->dProyecto->actualizarEstado($id, $estado);

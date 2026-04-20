@@ -46,6 +46,14 @@ class DProyecto
         return $stmt->fetchAll();
     }
 
+    public function obtenerEstado($id)
+    {
+        $sql = "SELECT estado FROM proyecto WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$id]);
+        return $stmt->fetch();
+    }
+
     public function actualizarEstado($id, $estado)
     {
         $sql = "UPDATE proyecto SET estado = ? WHERE id = ?";

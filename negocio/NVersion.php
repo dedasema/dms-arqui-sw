@@ -9,15 +9,18 @@ class NVersion
         $this->dVersion = new DVersion();
     }
 
-    public function subir($nombre, $peso_bytes, $proyecto_id, $ruta_archivo, $usuario_id, $estado = 'Pendiente')
+    public function subir($nombre, $peso_bytes, $proyecto_id, $ruta_archivo, $usuario_id)
     {
+        $nProyecto = new NProyecto();
+        $estado = $nProyecto->obtenerEstado($proyecto_id);
+
         // Auto-incrementar el número de versión
         $ultimoNumero = $this->dVersion->obtenerUltimoNumero($proyecto_id);
-        $nuevoNumero  = $ultimoNumero + 1;
+        $numero  = $ultimoNumero + 1;
 
         $result = $this->dVersion->subir(
             $nombre, $peso_bytes, $proyecto_id,
-            $ruta_archivo, $usuario_id, $estado, $nuevoNumero
+            $ruta_archivo, $usuario_id, $estado, $numero
         );
 
         // $this->procesarNotificaciones($proyecto_id, $nuevoNumero, $usuario_id);
