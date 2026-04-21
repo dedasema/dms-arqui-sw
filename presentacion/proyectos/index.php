@@ -4,15 +4,65 @@ require_once __DIR__ . '/../../config/autoload.php';
 require_once __DIR__ . '/../../config/session.php';
 checkAccess(['Administrador', 'Docente', 'Estudiante']);
 
-require_once 'PProyecto.php';
-require_once '../carreras/PCarrera.php';
-require_once '../modalidades/PModalidad.php';
-require_once '../gestiones/PGestion.php';
+/**
+ * CLASE DE PRESENTACIÓN (BOUNDARY) - PROYECTOS
+ */
+class PProyecto {
+    private $nProyecto;
+    private $nCarrera;
+    private $nModalidad;
+    private $nGestion;
+
+    public function __construct() {
+        $this->nProyecto = new NProyecto();
+        $this->nCarrera = new NCarrera();
+        $this->nModalidad = new NModalidad();
+        $this->nGestion = new NGestion();
+    }
+
+    public function obtenerProyectos() {
+        return $this->nProyecto->obtenerProyectos();
+    }
+
+    public function obtenerCarreras() {
+        return $this->nCarrera->obtenerCarreras();
+    }
+
+    public function obtenerModalidades() {
+        return $this->nModalidad->obtenerModalidades();
+    }
+
+    public function obtenerGestiones() {
+        return $this->nGestion->obtenerGestiones();
+    }
+
+    public function crearProyecto($input) {
+        $titulo       = $input['titulo'] ?? '';
+        $estado       = $input['estado'] ?? 'Iniciado';
+        $carrera_id   = !empty($input['carrera_id']) ? $input['carrera_id'] : null;
+        $modalidad_id = !empty($input['modalidad_id']) ? $input['modalidad_id'] : null;
+        $gestion_id   = !empty($input['gestion_id']) ? $input['gestion_id'] : null;
+
+        return $this->nProyecto->crearProyecto($titulo, $estado, $carrera_id, $modalidad_id, $gestion_id);
+    }
+
+    public function editarProyecto($input) {
+        $id           = $input['id'];
+        $titulo       = $input['titulo'] ?? '';
+        $estado       = $input['estado'] ?? 'Iniciado';
+        $carrera_id   = !empty($input['carrera_id']) ? $input['carrera_id'] : null;
+        $modalidad_id = !empty($input['modalidad_id']) ? $input['modalidad_id'] : null;
+        $gestion_id   = !empty($input['gestion_id']) ? $input['gestion_id'] : null;
+
+        return $this->nProyecto->editarProyecto($id, $titulo, $estado, $carrera_id, $modalidad_id, $gestion_id);
+    }
+
+    public function eliminarProyecto($id) {
+        return $this->nProyecto->eliminarProyecto($id);
+    }
+}
 
 $pProyecto = new PProyecto();
-$pCarrera = new PCarrera();
-$pModalidad = new PModalidad();
-$pGestion = new PGestion();
 
 // Procesar formulario web sincrónico directamente con la Capa P
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -33,9 +83,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Obtener datos para la vista
 $proyectos = $pProyecto->obtenerProyectos();
-$carreras = $pCarrera->obtenerCarreras();
-$modalidades = $pModalidad->obtenerModalidades();
-$gestiones = $pGestion->obtenerGestiones();
+$carreras = $pProyecto->obtenerCarreras();
+$modalidades = $pProyecto->obtenerModalidades();
+$gestiones = $pProyecto->obtenerGestiones();
 
 require_once __DIR__ . '/../componentes/layout.php';
 ?>

@@ -4,13 +4,53 @@ require_once __DIR__ . '/../../config/autoload.php';
 require_once __DIR__ . '/../../config/session.php';
 checkAccess(['Administrador']);
 
-require_once 'PAsignacion.php';
-require_once '../proyectos/PProyecto.php';
-require_once '../usuarios/PUsuario.php';
+/**
+ * CLASE DE PRESENTACIÓN (BOUNDARY) - ASIGNACIONES
+ */
+class PAsignacion {
+    private $nProyecto;
+    private $nUsuario;
+
+    public function __construct() {
+        $this->nProyecto = new NProyecto();
+        $this->nUsuario = new NUsuario();
+    }
+
+    public function obtenerProyectos() {
+        return $this->nProyecto->obtenerProyectos();
+    }
+
+    public function obtenerUsuarios() {
+        return $this->nUsuario->obtenerUsuarios();
+    }
+
+    public function obtenerAsignaciones($proyecto_id) {
+        return $this->nProyecto->obtenerAsignaciones($proyecto_id);
+    }
+
+    public function guardarAsignaciones($proyecto_id, $usuarios_ids) {
+        $todos = $this->nUsuario->obtenerUsuarios();
+        $roles_map = [];
+        foreach($todos as $t) {
+            $roles_map[$t['id']] = $t['rol'];
+        }
+
+        $usuarios_preparados = [];
+        foreach ($usuarios_ids as $uid) {
+            $usuarios_preparados[] = [
+                'usuario_id' => $uid,
+                'rol' => $roles_map[$uid] ?? 'Docente'
+            ];
+        }
+        return $this->nProyecto->crearAsignacion($proyecto_id, $usuarios_preparados);
+    }
+
+    public function eliminarAsignaciones($proyecto_id) {
+        return $this->nProyecto->eliminarAsignacion($proyecto_id);
+    }
+}
 
 $pAsignacion = new PAsignacion();
-$pProyecto = new PProyecto();
-$pUsuario = new PUsuario();
 
 $proyecto_id = $_GET['proyecto_id'] ?? 0;
 
@@ -27,8 +67,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Obtener datos para la vista
-$proyectos = $pProyecto->obtenerProyectos();
-$usuarios_disponibles = $pUsuario->obtenerUsuarios(); // Filtrar por Docente/etc si es necesario en N
+$proyectos = $pAsignacion->obtenerProyectos();
+$usuarios_disponibles = $pAsignacion->obtenerUsuarios(); // Filtrar por Docente/etc si es necesario en N
 $asignaciones_actuales = $proyecto_id ? $pAsignacion->obtenerAsignaciones($proyecto_id) : [];
 
 // Crear un array de IDs asignados para marcar los checkboxes

@@ -1,10 +1,11 @@
 <?php
 require_once __DIR__ . '/../../config/env_loader.php';
 require_once __DIR__ . '/../../config/autoload.php';
-require_once 'PAuth.php';
-
-$pAuth = new PAuth();
-$pAuth->logout();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+$_SESSION = [];
+session_destroy();
 
 header('Location: /presentacion/login/');
 exit;

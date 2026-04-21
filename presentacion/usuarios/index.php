@@ -4,11 +4,63 @@ require_once __DIR__ . '/../../config/autoload.php';
 require_once __DIR__ . '/../../config/session.php';
 checkAccess(['Administrador']);
 
-require_once 'PUsuario.php';
-require_once '../carreras/PCarrera.php';
+/**
+ * CLASE DE PRESENTACIÓN (BOUNDARY) - USUARIOS
+ */
+class PUsuario {
+    private $nUsuario;
+    private $nCarrera;
+
+    public function __construct() {
+        $this->nUsuario = new NUsuario();
+        $this->nCarrera = new NCarrera();
+    }
+
+    public function obtenerUsuarios() {
+        return $this->nUsuario->obtenerUsuarios();
+    }
+
+    public function obtenerCarreras() {
+        return $this->nCarrera->obtenerCarreras();
+    }
+
+    public function crearUsuario($input) {
+        $contrasena = password_hash($input['contrasena'], PASSWORD_BCRYPT);
+        return $this->nUsuario->crearUsuario(
+            $input['nombre_completo'], 
+            $input['correo'], 
+            $contrasena, 
+            $input['rol'], 
+            $input['codigo'] ?? null, 
+            !empty($input['carrera_id']) ? $input['carrera_id'] : null
+        );
+    }
+
+    public function editarUsuario($input) {
+        $id = $input['id'];
+        if (empty($input['contrasena'])) {
+            $contrasena = $this->nUsuario->obtenerContrasenaActual($id);
+        } else {
+            $contrasena = password_hash($input['contrasena'], PASSWORD_BCRYPT);
+        }
+        
+        return $this->nUsuario->editarUsuario(
+            $id, 
+            $input['nombre_completo'], 
+            $input['correo'], 
+            $contrasena, 
+            $input['rol'], 
+            $input['codigo'] ?? null, 
+            !empty($input['carrera_id']) ? $input['carrera_id'] : null
+        );
+    }
+
+    public function eliminarUsuario($id) {
+        return $this->nUsuario->eliminarUsuario($id);
+    }
+}
 
 $pUsuario = new PUsuario();
-$pCarrera = new PCarrera();
 
 // Procesar formulario web sincrónico directamente con la Capa P
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -27,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Obtener datos para la vista
 $usuarios = $pUsuario->obtenerUsuarios();
-$carreras = $pCarrera->obtenerCarreras();
+$carreras = $pUsuario->obtenerCarreras();
 
 require_once __DIR__ . '/../componentes/layout.php';
 ?>
