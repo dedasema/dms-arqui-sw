@@ -3,34 +3,32 @@ require_once __DIR__ . '/../../config/env_loader.php';
 require_once __DIR__ . '/../../config/autoload.php';
 require_once __DIR__ . '/../../config/session.php';
 
-// Carga del Proxy desde la capa de negocio
 require_once __DIR__ . '/../../negocio/ProxyCarrera.php';
 
 /**
  * CLASE DE PRESENTACIÓN (BOUNDARY) - CARRERAS
  */
 class PCarrera {
-    private $carreraService; // Apunta conceptualmente a la abstracción ICarrera
+    private $nCarrera;
 
     public function __construct() {
-        // La capa de presentación se vincula directamente al Proxy
-        $this->carreraService = new ProxyCarrera();
+        $this->nCarrera = new ProxyCarrera();
     }
 
     public function obtenerCarreras() {
-        return $this->carreraService->obtenerCarreras();
+        return $this->nCarrera->obtenerCarreras();
     }
 
     public function crearCarrera($input) {
-        $this->carreraService->crearCarrera($input['nombre'], $input['sigla']);
+        $this->nCarrera->crearCarrera($input['nombre'], $input['sigla']);
     }
 
     public function editarCarrera($input) {
-        $this->carreraService->editarCarrera($input['id'], $input['nombre'], $input['sigla']);
+        $this->nCarrera->editarCarrera($input['id'], $input['nombre'], $input['sigla']);
     }
 
     public function eliminarCarrera($id) {
-        $this->carreraService->eliminarCarrera($id);
+        $this->nCarrera->eliminarCarrera($id);
     }
 }
 
@@ -50,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: /presentacion/carreras/");
         exit;
     } catch (Exception $e) {
-        // Gestión de redirecciones basadas en las respuestas de seguridad del Proxy
         if ($e->getMessage() === 'UNAUTHENTICATED') {
             header('Location: /presentacion/login/');
             exit;
@@ -58,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: /presentacion/dashboard/?error=forbidden');
             exit;
         } else {
-            $errorMensaje = $e->getMessage(); // Errores controlados de negocio o base de datos
+            $errorMensaje = $e->getMessage();
         }
     }
 }

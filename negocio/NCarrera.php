@@ -8,7 +8,6 @@ class NCarrera implements ICarrera
 
     public function __construct()
     {
-        // Instancia su respectivo Data Access Object (DAO)
         $this->dCarrera = new DCarrera();
     }
 

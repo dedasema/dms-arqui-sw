@@ -5,12 +5,11 @@ require_once __DIR__ . '/NCarrera.php';
 
 class ProxyCarrera implements ICarrera
 {
-    private $realBusiness;
+    private $realCarrera;
 
     public function __construct()
     {
-        // El Proxy controla la instanciación del objeto real de negocio
-        $this->realBusiness = new NCarrera();
+        $this->realCarrera = new NCarrera();
     }
 
     private function verificarAutorizacion($rolesPermitidos = [])
@@ -19,12 +18,10 @@ class ProxyCarrera implements ICarrera
             session_start();
         }
 
-        // 1. Verificación de Autenticación básica (session.php)
         if (!isset($_SESSION['usuario_id'])) {
             throw new Exception("UNAUTHENTICATED");
         }
 
-        // 2. Verificación de Autorización por Rol
         if (!empty($rolesPermitidos) && !in_array($_SESSION['rol'], $rolesPermitidos)) {
             throw new Exception("UNAUTHORIZED");
         }
@@ -33,24 +30,24 @@ class ProxyCarrera implements ICarrera
     public function crearCarrera($nombre, $sigla)
     {
         $this->verificarAutorizacion(['Administrador']); 
-        return $this->realBusiness->crearCarrera($nombre, $sigla);
+        return $this->realCarrera->crearCarrera($nombre, $sigla);
     }
 
     public function editarCarrera($id, $nombre, $sigla)
     {
         $this->verificarAutorizacion(['Administrador']);
-        return $this->realBusiness->editarCarrera($id, $nombre, $sigla);
+        return $this->realCarrera->editarCarrera($id, $nombre, $sigla);
     }
 
     public function eliminarCarrera($id)
     {
         $this->verificarAutorizacion(['Administrador']);
-        return $this->realBusiness->eliminarCarrera($id);
+        return $this->realCarrera->eliminarCarrera($id);
     }
 
     public function obtenerCarreras()
     {
-        $this->verificarAutorizacion(); // Permite el acceso a cualquier usuario autenticado
-        return $this->realBusiness->obtenerCarreras();
+        $this->verificarAutorizacion(); 
+        return $this->realCarrera->obtenerCarreras();
     }
 }
