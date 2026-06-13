@@ -1,14 +1,15 @@
 <?php
 
-require_once __DIR__ . '/ICarreraBusiness.php';
+require_once __DIR__ . '/ICarrera.php';
 require_once __DIR__ . '/NCarrera.php';
 
-class ProxyCarrera implements ICarreraBusiness
+class ProxyCarrera implements ICarrera
 {
     private $realBusiness;
 
     public function __construct()
     {
+        // El Proxy controla la instanciación del objeto real de negocio
         $this->realBusiness = new NCarrera();
     }
 
@@ -18,7 +19,7 @@ class ProxyCarrera implements ICarreraBusiness
             session_start();
         }
 
-        // 1. Verificación de Autenticación básica
+        // 1. Verificación de Autenticación básica (session.php)
         if (!isset($_SESSION['usuario_id'])) {
             throw new Exception("UNAUTHENTICATED");
         }
@@ -49,7 +50,7 @@ class ProxyCarrera implements ICarreraBusiness
 
     public function obtenerCarreras()
     {
-        $this->verificarAutorizacion(); // Solo requiere estar autenticado
+        $this->verificarAutorizacion(); // Permite el acceso a cualquier usuario autenticado
         return $this->realBusiness->obtenerCarreras();
     }
 }

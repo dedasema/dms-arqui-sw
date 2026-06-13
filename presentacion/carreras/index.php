@@ -3,34 +3,34 @@ require_once __DIR__ . '/../../config/env_loader.php';
 require_once __DIR__ . '/../../config/autoload.php';
 require_once __DIR__ . '/../../config/session.php';
 
-// Eliminamos checkAccess() directo porque ahora la protección está en la capa de negocio (Proxy)
+// Carga del Proxy desde la capa de negocio
 require_once __DIR__ . '/../../negocio/ProxyCarrera.php';
 
 /**
  * CLASE DE PRESENTACIÓN (BOUNDARY) - CARRERAS
  */
 class PCarrera {
-    private $carreraBusiness;
+    private $carreraService; // Apunta conceptualmente a la abstracción ICarrera
 
     public function __construct() {
-        // El cliente (Presentación) interactúa con el Proxy
-        $this->carreraBusiness = new ProxyCarrera();
+        // La capa de presentación se vincula directamente al Proxy
+        $this->carreraService = new ProxyCarrera();
     }
 
     public function obtenerCarreras() {
-        return $this->carreraBusiness->obtenerCarreras();
+        return $this->carreraService->obtenerCarreras();
     }
 
     public function crearCarrera($input) {
-        $this->carreraBusiness->crearCarrera($input['nombre'], $input['sigla']);
+        $this->carreraService->crearCarrera($input['nombre'], $input['sigla']);
     }
 
     public function editarCarrera($input) {
-        $this->carreraBusiness->editarCarrera($input['id'], $input['nombre'], $input['sigla']);
+        $this->carreraService->editarCarrera($input['id'], $input['nombre'], $input['sigla']);
     }
 
     public function eliminarCarrera($id) {
-        $this->carreraBusiness->eliminarCarrera($id);
+        $this->carreraService->eliminarCarrera($id);
     }
 }
 
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: /presentacion/carreras/");
         exit;
     } catch (Exception $e) {
-        // Capturar errores del ProxyCarrera
+        // Gestión de redirecciones basadas en las respuestas de seguridad del Proxy
         if ($e->getMessage() === 'UNAUTHENTICATED') {
             header('Location: /presentacion/login/');
             exit;
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: /presentacion/dashboard/?error=forbidden');
             exit;
         } else {
-            $errorMensaje = $e->getMessage();
+            $errorMensaje = $e->getMessage(); // Errores controlados de negocio o base de datos
         }
     }
 }
@@ -71,7 +71,7 @@ try {
         exit;
     }
     $carreras = [];
-    $errorMensaje = "Error: " . $e->getMessage();
+    $errorMensaje = "Error de autorización: " . $e->getMessage();
 }
 
 require_once __DIR__ . '/../componentes/layout.php';
@@ -92,7 +92,7 @@ require_once __DIR__ . '/../componentes/layout.php';
 
 <?php if (!empty($errorMensaje)): ?>
 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-    <strong class="font-bold">Error:</strong>
+    <strong class="font-bold">Aviso:</strong>
     <span class="block sm:inline"><?= htmlspecialchars($errorMensaje) ?></span>
 </div>
 <?php endif; ?>

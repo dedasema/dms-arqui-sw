@@ -1,6 +1,6 @@
 <?php
 
-interface ICarreraBusiness
+interface ICarrera
 {
     public function crearCarrera($nombre, $sigla);
     public function editarCarrera($id, $nombre, $sigla);

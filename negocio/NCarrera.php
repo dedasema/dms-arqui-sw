@@ -1,14 +1,14 @@
 <?php
 
-require_once __DIR__ . '/ICarreraBusiness.php';
+require_once __DIR__ . '/ICarrera.php';
 
-class NCarrera implements ICarreraBusiness
+class NCarrera implements ICarrera
 {
     private $dCarrera;
 
     public function __construct()
     {
-        // Se asume que DCarrera se carga mediante el autoload o en la vista principal
+        // Instancia su respectivo Data Access Object (DAO)
         $this->dCarrera = new DCarrera();
     }
 
