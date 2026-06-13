@@ -1,11 +1,14 @@
 <?php
 
-class NCarrera
+require_once __DIR__ . '/ICarreraBusiness.php';
+
+class NCarrera implements ICarreraBusiness
 {
     private $dCarrera;
 
     public function __construct()
     {
+        // Se asume que DCarrera se carga mediante el autoload o en la vista principal
         $this->dCarrera = new DCarrera();
     }
 

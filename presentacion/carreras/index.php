@@ -2,51 +2,77 @@
 require_once __DIR__ . '/../../config/env_loader.php';
 require_once __DIR__ . '/../../config/autoload.php';
 require_once __DIR__ . '/../../config/session.php';
-checkAccess(['Administrador']);
+
+// Eliminamos checkAccess() directo porque ahora la protección está en la capa de negocio (Proxy)
+require_once __DIR__ . '/../../negocio/ProxyCarrera.php';
 
 /**
  * CLASE DE PRESENTACIÓN (BOUNDARY) - CARRERAS
  */
 class PCarrera {
-    private $nCarrera;
+    private $carreraBusiness;
 
     public function __construct() {
-        $this->nCarrera = new NCarrera();
+        // El cliente (Presentación) interactúa con el Proxy
+        $this->carreraBusiness = new ProxyCarrera();
     }
 
     public function obtenerCarreras() {
-        return $this->nCarrera->obtenerCarreras();
+        return $this->carreraBusiness->obtenerCarreras();
     }
 
     public function crearCarrera($input) {
-        $this->nCarrera->crearCarrera($input['nombre'], $input['sigla']);
+        $this->carreraBusiness->crearCarrera($input['nombre'], $input['sigla']);
     }
 
     public function editarCarrera($input) {
-        $this->nCarrera->editarCarrera($input['id'], $input['nombre'], $input['sigla']);
+        $this->carreraBusiness->editarCarrera($input['id'], $input['nombre'], $input['sigla']);
     }
 
     public function eliminarCarrera($id) {
-        $this->nCarrera->eliminarCarrera($id);
+        $this->carreraBusiness->eliminarCarrera($id);
     }
 }
 
 $pCarrera = new PCarrera();
+$errorMensaje = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $action = $_POST['action'] ?? '';
-    if ($action === 'crear') {
-        $pCarrera->crearCarrera($_POST);
-    } elseif ($action === 'editar') {
-        $pCarrera->editarCarrera($_POST);
-    } elseif ($action === 'eliminar') {
-        $pCarrera->eliminarCarrera($_POST['id']);
+    try {
+        $action = $_POST['action'] ?? '';
+        if ($action === 'crear') {
+            $pCarrera->crearCarrera($_POST);
+        } elseif ($action === 'editar') {
+            $pCarrera->editarCarrera($_POST);
+        } elseif ($action === 'eliminar') {
+            $pCarrera->eliminarCarrera($_POST['id']);
+        }
+        header("Location: /presentacion/carreras/");
+        exit;
+    } catch (Exception $e) {
+        // Capturar errores del ProxyCarrera
+        if ($e->getMessage() === 'UNAUTHENTICATED') {
+            header('Location: /presentacion/login/');
+            exit;
+        } elseif ($e->getMessage() === 'UNAUTHORIZED') {
+            header('Location: /presentacion/dashboard/?error=forbidden');
+            exit;
+        } else {
+            $errorMensaje = $e->getMessage();
+        }
     }
-    header("Location: /presentacion/carreras/");
-    exit;
 }
 
-$carreras = $pCarrera->obtenerCarreras();
+try {
+    $carreras = $pCarrera->obtenerCarreras();
+} catch (Exception $e) {
+    if ($e->getMessage() === 'UNAUTHENTICATED') {
+        header('Location: /presentacion/login/');
+        exit;
+    }
+    $carreras = [];
+    $errorMensaje = "Error: " . $e->getMessage();
+}
 
 require_once __DIR__ . '/../componentes/layout.php';
 ?>
@@ -63,6 +89,13 @@ require_once __DIR__ . '/../componentes/layout.php';
         <span>Nueva Carrera</span>
     </button>
 </div>
+
+<?php if (!empty($errorMensaje)): ?>
+<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+    <strong class="font-bold">Error:</strong>
+    <span class="block sm:inline"><?= htmlspecialchars($errorMensaje) ?></span>
+</div>
+<?php endif; ?>
 
 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
     <table class="w-full text-left">
@@ -102,7 +135,6 @@ require_once __DIR__ . '/../componentes/layout.php';
     </table>
 </div>
 
-<!-- Modal -->
 <div id="modal-carrera" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100">
