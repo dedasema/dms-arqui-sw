@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../negocio/ProxyCarrera.php';
  * CLASE DE PRESENTACIÓN (BOUNDARY) - CARRERAS
  */
 class PCarrera {
-    private $nCarrera;
+    private ICarrera $nCarrera;
 
     public function __construct() {
         $this->nCarrera = new ProxyCarrera();
