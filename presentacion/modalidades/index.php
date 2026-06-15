@@ -4,14 +4,29 @@ require_once __DIR__ . '/../../config/autoload.php';
 require_once __DIR__ . '/../../config/session.php';
 checkAccess(['Administrador']);
 
+// Importaciones del Patrón Decorator
+require_once __DIR__ . '/../../negocio/IModalidad.php';
+require_once __DIR__ . '/../../negocio/NModalidad.php';
+require_once __DIR__ . '/../../negocio/ModalidadSanitizadorDecorator.php';
+require_once __DIR__ . '/../../negocio/ModalidadCacheDecorator.php';
+
 /**
  * CLASE DE PRESENTACIÓN (BOUNDARY) - MODALIDADES
  */
 class PModalidad {
-    private $nModalidad;
+    // Declaración estricta de tipo interfaz
+    private IModalidad $nModalidad;
 
     public function __construct() {
-        $this->nModalidad = new NModalidad();
+        // ENSAMBLAJE MATRIOSHKA:
+        // 1. NModalidad (Centro: BD transaccional)
+        // 2. SanitizadorDecorator (Capa media: Limpia textos)
+        // 3. CacheDecorator (Capa externa: Controla memoria)
+        $this->nModalidad = new ModalidadCacheDecorator(
+            new ModalidadSanitizadorDecorator(
+                new NModalidad()
+            )
+        );
     }
 
     public function obtenerModalidades() {
@@ -102,7 +117,6 @@ require_once __DIR__ . '/../componentes/layout.php';
     </table>
 </div>
 
-<!-- Modal -->
 <div id="modal-modalidad" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100">

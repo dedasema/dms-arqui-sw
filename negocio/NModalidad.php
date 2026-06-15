@@ -1,6 +1,7 @@
 <?php
+require_once __DIR__ . '/IModalidad.php';
 
-class NModalidad
+class NModalidad implements IModalidad
 {
     private $dModalidad;
 
